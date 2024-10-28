@@ -1,0 +1,19 @@
+INDEX VERSION 1.131+E:\Projects\CS 464\Parser Eclipse\.metadata\.plugins\org.eclipse.jdt.core
+3170712695.index
+3296225385.index
+3771022171.index
+4116493492.index
+4083626114.index
+1861585971.index
+3383571837.index
+747718395.index
+1976998369.index
+1055974998.index
+1075525768.index
+3650390333.index
+3581441940.index
+2543564326.index
+1181389623.index
+169617146.index
+2772803586.index
+1918343700.index
