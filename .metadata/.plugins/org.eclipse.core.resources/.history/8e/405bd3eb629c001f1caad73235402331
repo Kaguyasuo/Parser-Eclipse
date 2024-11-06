@@ -61,7 +61,7 @@ You should get the following error messges:
  Line 6: wrong token ?
 */
 
-
+// @author William Horton
 import java.io.*;
 
 public class Scanner{
@@ -113,77 +113,105 @@ public class Scanner{
   }
 
   private byte scanToken() {
-	  switch(currentChar) {
-      case '\u0000': 
-          return Token.EOT;
-          
-      case '(':
-          takeIt();
-          return Token.LPAREN;  // kind = 9
-          
-      case ')':
-          takeIt();
-          return Token.RPAREN;  // kind = 10
-          
-      // Handle minus sign for negative numbers
-      case '-':
-          takeIt();
-          if (isDigit(currentChar)) {
+	  byte kind;
+      switch(currentChar) {
+          case '\u0000': 
+              kind = Token.EOT;
+              break;
+              
+          case '(':
+              takeIt();
+              kind = Token.LPAREN;  // 9
+              System.out.println("Line: " + line + ", spelling = [" + currentSpelling + "], kind = " + kind);
+              return kind;
+              
+          case ')':
+              takeIt();
+              kind = Token.RPAREN;  // 10
+              System.out.println("Line: " + line + ", spelling = [" + currentSpelling + "], kind = " + kind);
+              return kind;
+              
+          // Handle minus sign for negative numbers
+          case '-':
+              takeIt();
+              if (isDigit(currentChar)) {
+                  while (isDigit(currentChar))
+                      takeIt();
+                  kind = Token.LITERAL;  // 1
+              } else {
+                  kind = Token.OPERATOR;  // 11
+              }
+              System.out.println("Line: " + line + ", spelling = [" + currentSpelling + "], kind = " + kind);
+              return kind;
+
+          // Handle operators
+          case '+': case '*': case '/': case '<': case '>': case '=': //case '!':
+              takeIt();
+              if ((currentChar == '=' && (currentSpelling.charAt(0) == '<' || 
+                                        currentSpelling.charAt(0) == '>' || 
+                                        currentSpelling.charAt(0) == '!' || 
+                                        currentSpelling.charAt(0) == '='))) {
+                  takeIt();
+              }
+              kind = Token.OPERATOR;  // 11
+              System.out.println("Line: " + line + ", spelling = [" + currentSpelling + "], kind = " + kind);
+              return kind;
+              
+          // Handle literals (numbers)
+          case '0': case '1': case '2': case '3': case '4':
+          case '5': case '6': case '7': case '8': case '9':
+              takeIt();
               while (isDigit(currentChar))
                   takeIt();
-              return Token.LITERAL;  // kind = 1
-          }
-          return Token.OPERATOR;  // kind = 11
-
-      // Handle operators
-      case '+': case '*': case '/': case '<': case '>': case '=': case '!':
-          takeIt();
-          if (currentChar == '=') {
-              takeIt();
-          }
-          return Token.OPERATOR;  // kind = 11
-          
-      // Handle literals (numbers)
-      case '0': case '1': case '2': case '3': case '4':
-      case '5': case '6': case '7': case '8': case '9':
-          takeIt();
-          while (isDigit(currentChar))
-              takeIt();
-          return Token.LITERAL;  // kind = 1
-          
-      default:
-          // Handle identifiers and keywords
-          if (isLetter(currentChar)) {
-              takeIt();
-              while (isLetter(currentChar) || isDigit(currentChar))
+              kind = Token.LITERAL;  // 1
+              System.out.println("Line: " + line + ", spelling = [" + currentSpelling + "], kind = " + kind);
+              return kind;
+              
+          default:
+              // Handle identifiers and keywords
+              if (isLetter(currentChar)) {
                   takeIt();
-                  
-              String spelling = currentSpelling.toString();
-              switch(spelling) {
-                  case "assign":
-                      return Token.ASSIGN;      // kind = 2
-                  case "conditional":
-                      return Token.CONDITIONAL; // kind = 3
-                  case "loop":
-                      return Token.LOOP;        // kind = 4
-                  case "block":
-                      return Token.BLOCK;       // kind = 5
-                  case "skip":
-                      return Token.SKIP;        // kind = 6
-                  case "and":
-                      return Token.AND;         // kind = 7
-                  case "or":
-                      return Token.OR;          // kind = 8
-                  default:
-                      return Token.IDENTIFIER;  // kind = 0
+                  while (isLetter(currentChar) || isDigit(currentChar))
+                      takeIt();
+                      
+                  String spelling = currentSpelling.toString();
+                  switch(spelling) {
+                      case "assign":
+                          kind = Token.ASSIGN;      // 2
+                          break;
+                      case "conditional":
+                          kind = Token.CONDITIONAL; // 3
+                          break;
+                      case "loop":
+                          kind = Token.LOOP;        // 4
+                          break;
+                      case "block":
+                          kind = Token.BLOCK;       // 5
+                          break;
+                      case "skip":
+                          kind = Token.SKIP;        // 6
+                          break;
+                      case "and":
+                          kind = Token.AND;         // 7
+                          break;
+                      case "or":
+                          kind = Token.OR;          // 8
+                          break;
+                      default:
+                          kind = Token.IDENTIFIER;  // 0
+                          break;
+                  }
+                  System.out.println("Line: " + line + ", spelling = [" + currentSpelling + "], kind = " + kind);
+                  return kind;
               }
-          }
-          
-          // Invalid token
-          new Error("wrong token " + currentChar, line);
-          return Token.EOT; // This line won't execute due to System.exit in Error
+              
+              // Invalid token
+              new Error("wrong token " + currentChar, line);
+              return Token.EOT; // This line won't execute due to System.exit in Error
+      }
+      return kind;
   }
-  }
+  
 
   private void scanSeparator(){
     switch(currentChar){

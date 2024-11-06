@@ -5,12 +5,12 @@ public class Main{
     Scanner scanner = new Scanner(sourceFile.openFile());
     Token token;
     
-    // Scanner - Comment out if you want the parser, just scans the program for characters
+    // Scanner - Comment out if you want the parser
     do {
       token = scanner.scan();
     } while (token.kind != Token.EOT);
 	
-    // Parser - checks syntax, grammar and scans
+    // Parser
     Parser p = new Parser();
     p.parse();
     System.out.println("The syntax of the source program is correct.");

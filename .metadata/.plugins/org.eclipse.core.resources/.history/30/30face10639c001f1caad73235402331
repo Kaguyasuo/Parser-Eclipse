@@ -10,7 +10,7 @@ public class Main{
       token = scanner.scan();
     } while (token.kind != Token.EOT);
 	
-    // Parser - checks syntax, grammar and scans
+    // Parser - checks syntax and scans
     Parser p = new Parser();
     p.parse();
     System.out.println("The syntax of the source program is correct.");
