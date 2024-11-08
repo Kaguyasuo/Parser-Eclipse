@@ -173,44 +173,4 @@ public class Parser {
             new Error("Syntax error: Invalid expression", currentToken.line);
         }
     }
-    
-    //Operation --> "+" |"-" | "*" | "/" | "<" | "<=" | ">" | ">=" | "=" | "!=" | "or" | "and".
-    private void parseOperation() {
-        switch (currentToken.kind) {
-            case Token.OPERATOR:
-                // Handle arithmetic and comparison operators
-                switch (currentToken.spelling) {
-                    case "+":
-                    case "-":
-                    case "*":
-                    case "/":
-                    case "<":
-                    case "<=":
-                    case ">":
-                    case ">=":
-                    case "=":
-                    case "!=":
-                        acceptIt();
-                        break;
-                    default:
-                        new Error("Syntax error: Invalid operator '" + currentToken.spelling + "'", 
-                                currentToken.line);
-                }
-                break;
-                
-            case Token.OR:
-                // Handle logical OR
-                acceptIt();
-                break;
-                
-            case Token.AND:
-                // Handle logical AND
-                acceptIt();
-                break;
-                
-            default:
-                new Error("Syntax error: Expected operator but found '" + currentToken.spelling + "'",
-                         currentToken.line);
-        }
-    }
 }

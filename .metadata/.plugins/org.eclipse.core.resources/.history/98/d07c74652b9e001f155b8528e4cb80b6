@@ -174,7 +174,7 @@ public class Parser {
         }
     }
     
-    //Operation --> "+" |"-" | "*" | "/" | "<" | "<=" | ">" | ">=" | "=" | "!=" | "or" | "and".
+  //Operation --> "+" |"-" | "*" | "/" | "<" | "<=" | ">" | ">=" | "=" | "!=" | "or" | "and".
     private void parseOperation() {
         switch (currentToken.kind) {
             case Token.OPERATOR:

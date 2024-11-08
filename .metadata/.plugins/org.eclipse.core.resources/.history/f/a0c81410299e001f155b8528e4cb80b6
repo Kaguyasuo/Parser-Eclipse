@@ -117,7 +117,7 @@ public class Scanner{
       switch(currentChar) {
           case '\u0000': 
               kind = Token.EOT;
-              return kind;
+              break;
               
           case '(':
               takeIt();
@@ -215,6 +215,7 @@ public class Scanner{
               new Error("wrong token " + currentChar, line);
               return Token.EOT; // This line won't execute due to System.exit in Error
       }
+      return kind;
   }
   
 

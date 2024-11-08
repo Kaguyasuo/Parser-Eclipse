@@ -12,7 +12,7 @@ public class Main{
     } while (token.kind != Token.EOT);
 	
     // Parser - checks syntax, grammar and scans
-    //System.out.println("Parser: ");
+    System.out.println("Parser: ");
     Parser p = new Parser();
     p.parse();
     System.out.println("The syntax of the source program is correct.");
