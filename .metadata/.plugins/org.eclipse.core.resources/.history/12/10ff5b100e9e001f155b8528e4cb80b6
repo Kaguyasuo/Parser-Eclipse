@@ -145,24 +145,18 @@ public class Scanner{
               return kind;
 
           // Handle operators
-          case '+': case '*': case '/': case '=':
+          case '+': case '*': case '/': case '<': case '>': case '=': case '!':
               takeIt();
-                  
+              if ((currentChar == '=' && (currentSpelling.charAt(0) == '<' || 
+                                        currentSpelling.charAt(0) == '>' || 
+                                        currentSpelling.charAt(0) == '!' || 
+                                        currentSpelling.charAt(0) == '='))) {
+                  takeIt();
+              }
               kind = Token.OPERATOR;  // 11
               System.out.println("Line: " + line + ", spelling = [" + currentSpelling + "], kind = " + kind);
               return kind;
-          case '<': case '>': 
-        	  takeIt();
-        	  if (currentChar == '=') {
-        		  takeIt();
-        	  } 
-        	  return Token.OPERATOR;
-          case '!': 
-        	  takeIt();
-        	  if (currentChar == '=') {
-        		  return Token.OPERATOR;
-        	  } 
-        	  new Error("wrong token " + "[!]", line);
+              
           // Handle literals (numbers)
           case '0': case '1': case '2': case '3': case '4':
           case '5': case '6': case '7': case '8': case '9':
